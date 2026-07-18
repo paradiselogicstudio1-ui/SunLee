@@ -1,0 +1,22 @@
+.process-timeline {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 1.4rem;
+    left: 12.5%;
+    right: 12.5%;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.12);
+    z-index: 0;
+  }
+}
+
+.step-number {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-light);
+}
