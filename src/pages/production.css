@@ -6,6 +6,139 @@
   background-size: 48px 48px;
 }
 
+.production-page {
+  overflow: hidden;
+}
+
+.consultation-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 8rem 4vw 4rem;
+}
+
+.consultation-panel {
+  position: relative;
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 4.5rem);
+  border: 1px solid rgba(201, 187, 164, 0.22);
+  background:
+    linear-gradient(135deg, rgba(243, 239, 232, 0.055), transparent 42%),
+    rgba(20, 19, 15, 0.88);
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.28);
+}
+
+.consultation-panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: clamp(2rem, 4vw, 4.5rem);
+  width: 7rem;
+  height: 2px;
+  background: var(--accent);
+}
+
+.consultation-kicker {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(201, 187, 164, 0.15);
+  color: var(--stone-warm);
+  font-size: 0.68rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.consultation-panel #contact {
+  display: grid;
+  grid-template-columns: minmax(17rem, 0.8fr) minmax(32rem, 1.2fr);
+  grid-template-rows: auto 1fr;
+  column-gap: clamp(3rem, 7vw, 8rem);
+  max-width: none;
+  padding-top: clamp(3rem, 6vw, 6rem);
+}
+
+.consultation-panel #contact > h2 {
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 8ch;
+  margin: 0 0 1.5rem;
+  font-size: clamp(3.75rem, 6vw, 7rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+}
+
+.consultation-panel #contact > p {
+  grid-column: 1;
+  grid-row: 2;
+  max-width: 36ch;
+  margin: 0;
+  color: var(--stone-warm);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  opacity: 0.72;
+}
+
+.consultation-panel #contact > form,
+.consultation-panel #contact > div {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: start;
+}
+
+.consultation-panel #contact > form {
+  gap: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid rgba(201, 187, 164, 0.18);
+  background: rgba(243, 239, 232, 0.025);
+}
+
+.consultation-panel .field input,
+.consultation-panel .field textarea {
+  border-color: rgba(201, 187, 164, 0.24);
+  background: rgba(8, 8, 6, 0.24);
+  transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+
+.consultation-panel .field input {
+  min-height: 3.25rem;
+}
+
+.consultation-panel .field input:hover,
+.consultation-panel .field textarea:hover {
+  border-color: rgba(201, 187, 164, 0.45);
+}
+
+.consultation-panel .field input:focus,
+.consultation-panel .field textarea:focus {
+  border-color: var(--accent);
+  background: rgba(8, 8, 6, 0.42);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.consultation-panel .field label {
+  color: var(--stone-warm);
+  opacity: 0.72;
+}
+
+.consultation-panel button[type='submit'] {
+  width: 100%;
+  justify-content: center;
+  min-height: 3.5rem;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--bg-dark);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.consultation-panel button[type='submit']:hover {
+  background: var(--text-on-dark);
+  border-color: var(--text-on-dark);
+}
+
 .tech-card {
   position: relative;
   border: 1px solid rgba(243, 239, 232, 0.12);
@@ -92,10 +225,54 @@
 }
 
 @media (max-width: 768px) {
+  .consultation-section {
+    align-items: flex-start;
+    padding: 7rem 1rem 2rem;
+  }
+
+  .consultation-panel {
+    padding: 1.5rem;
+  }
+
+  .consultation-panel::before {
+    left: 1.5rem;
+    width: 4rem;
+  }
+
+  .consultation-panel #contact {
+    display: block;
+    padding-top: 2.75rem;
+  }
+
+  .consultation-panel #contact > h2 {
+    max-width: 9ch;
+    margin-bottom: 1.25rem;
+    font-size: clamp(3.25rem, 16vw, 5rem);
+  }
+
+  .consultation-panel #contact > p {
+    margin-bottom: 2.5rem;
+  }
+
+  .consultation-panel #contact > form {
+    padding: 1.25rem;
+  }
+
   .workflow-track {
     flex-direction: column;
   }
   .workflow-arrow {
     transform: rotate(90deg);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1050px) {
+  .consultation-panel #contact {
+    grid-template-columns: minmax(15rem, 0.75fr) minmax(26rem, 1.25fr);
+    column-gap: 3rem;
+  }
+
+  .consultation-panel #contact > h2 {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
   }
 }

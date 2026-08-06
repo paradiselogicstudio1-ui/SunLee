@@ -38,6 +38,18 @@ a {
   color: inherit;
 }
 
+.site-logo {
+  display: block;
+  width: clamp(145px, 14vw, 220px);
+  line-height: 0;
+}
+
+.site-logo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Shared form field styles (used by ContactForm on both light and dark sections) */
 .field label {
   display: block;

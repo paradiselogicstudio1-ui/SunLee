@@ -48,15 +48,15 @@ export default function FactoryEfficiencySimulator() {
 
   function bottleneckMessage() {
     if (isBalanced) {
-      return 'Your current configuration is well balanced — no single station is dragging down the line.'
+      return 'Your current configuration is well balanced, no single station is dragging down the line.'
     }
     switch (bottleneck.id) {
       case 'saws':
         return `Bridge saws are your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. Adding another saw would bring this down to ${(handlingTime / (numSaws + 1)).toFixed(1)} min/slab.`
       case 'finishing':
-        return `Hand finishing is your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. More fabricators — or a smarter station layout — would relieve the backlog.`
+        return `Hand finishing is your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. More fabricators, or a smarter station layout, would relieve the backlog.`
       case 'polishing':
-        return `Edge polishing is now your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. This fixed-capacity station can't be sped up by adding saws or fabricators alone — it needs a layout redesign.`
+        return `Edge polishing is now your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. This fixed-capacity station can't be sped up by adding saws or fabricators alone, it needs a layout redesign.`
       default:
         return `Slab storage is your bottleneck at ${bottleneck.time.toFixed(1)} min/slab. Retrieval logistics are slowing the whole line down.`
     }

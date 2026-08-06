@@ -69,11 +69,11 @@ export const materials: Material[] = [
     priorities: ['luxury'],
     pros: [
       'Timeless, unmatched veining and depth',
-      'Naturally cool surface — ideal for baking',
+      'Naturally cool surface, ideal for baking',
       'Available in rare, one-of-a-kind slabs',
     ],
     cons: [
-      'Porous — prone to etching from acids',
+      'Porous, prone to etching from acids',
       'Softer stone, can scratch or chip',
       'Needs regular sealing and care',
     ],
@@ -87,7 +87,7 @@ export const materials: Material[] = [
     vibes: ['minimal', 'dark'],
     priorities: ['durability'],
     pros: [
-      'Near-zero porosity — stain and chemical proof',
+      'Near-zero porosity, stain and chemical proof',
       'UV stable, ideal for facades and outdoor kitchens',
       'Extremely scratch and heat resistant',
     ],

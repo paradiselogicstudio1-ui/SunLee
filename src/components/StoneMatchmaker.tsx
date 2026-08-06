@@ -29,7 +29,7 @@ function OptionGrid<T extends string>({
   onSelect: (id: T) => void
 }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="matchmaker-options">
       {options.map((option) => {
         const isActive = selected === option.id
         return (
@@ -37,14 +37,14 @@ function OptionGrid<T extends string>({
             key={option.id}
             type="button"
             onClick={() => onSelect(option.id)}
-            className={`text-left p-5 border transition-colors duration-200 ${
-              isActive
-                ? 'border-[var(--accent)] bg-[var(--accent)]/10'
-                : 'border-black/15 hover:border-[var(--accent)]/60'
-            }`}
+            aria-pressed={isActive}
+            className={`matchmaker-option ${isActive ? 'is-active' : ''}`}
           >
-            <div className="font-display text-lg mb-1">{option.label}</div>
-            <div className="text-sm opacity-60">{option.description}</div>
+            <span className="option-copy">
+              <strong>{option.label}</strong>
+              <span>{option.description}</span>
+            </span>
+            <span className="option-arrow" aria-hidden="true">↗</span>
           </button>
         )
       })}
@@ -52,7 +52,7 @@ function OptionGrid<T extends string>({
   )
 }
 
-export default function StoneMatchmaker({ onConsult }: { onConsult: (message: string) => void }) {
+export default function StoneMatchmaker({ onConsult }: { onConsult?: (message: string) => void }) {
   const [step, setStep] = useState(0)
   const [answers, setAnswers] = useState<Answers>({ location: null, vibe: null, priority: null })
 
@@ -74,6 +74,7 @@ export default function StoneMatchmaker({ onConsult }: { onConsult: (message: st
   }
 
   function handleConsult(material: Material) {
+    if (!onConsult) return
     const locationLabel = locationOptions.find((o) => o.id === answers.location)?.label
     const vibeLabel = vibeOptions.find((o) => o.id === answers.vibe)?.label
     const priorityLabel = priorityOptions.find((o) => o.id === answers.priority)?.label
@@ -93,20 +94,20 @@ export default function StoneMatchmaker({ onConsult }: { onConsult: (message: st
   }
 
   return (
-    <div className="matchmaker">
+    <div className="matchmaker matchmaker-visual">
       {step < STEPS.length && (
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-6 text-xs uppercase tracking-[0.25em] opacity-60">
+        <div className="matchmaker-quiz">
+          <div className="matchmaker-progress flex items-center gap-3 mb-6 text-xs uppercase tracking-[0.25em] opacity-60">
             {STEPS.map((label, i) => (
-              <span key={label} className={`flex items-center gap-3 ${i === step ? 'opacity-100 text-[var(--accent)]' : ''}`}>
+              <span key={label} className={`flex items-center gap-3 ${i === step ? 'opacity-100 text-[var(--accent)]' : ''}`} aria-label={label}>
                 <span className={`w-6 h-6 flex items-center justify-center border rounded-full ${i === step ? 'border-[var(--accent)]' : 'border-current'}`}>
                   {i + 1}
                 </span>
-                {label}
-                {i < STEPS.length - 1 && <span className="opacity-30 ml-1">—</span>}
               </span>
             ))}
           </div>
+
+          {step > 0 && <h3 className="matchmaker-question-title">{STEPS[step]}</h3>}
 
           {step === 0 && (
             <OptionGrid options={locationOptions} selected={answers.location} onSelect={(id) => select('location', id)} />
@@ -121,8 +122,8 @@ export default function StoneMatchmaker({ onConsult }: { onConsult: (message: st
       )}
 
       {step >= STEPS.length && isComplete && (
-        <div>
-          <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <div className="matchmaker-results">
+          <div className="matchmaker-results-header">
             <p className="opacity-70 max-w-md">
               Based on your answers, here are the materials best suited to your project.
             </p>
@@ -135,11 +136,13 @@ export default function StoneMatchmaker({ onConsult }: { onConsult: (message: st
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="material-results-grid">
             {results.map((material) => (
-              <div key={material.id} className="border border-black/10 flex flex-col">
-                <div className="h-32" style={{ background: material.swatch }} />
-                <div className="p-6 flex flex-col flex-1">
+              <article key={material.id} className="material-result-card">
+                <div className="material-swatch" style={{ background: material.swatch }}>
+                  <span>Material study</span>
+                </div>
+                <div className="material-card-content">
                   <h3 className="font-display text-2xl mb-1">{material.name}</h3>
                   <p className="text-sm opacity-60 mb-4">{material.tagline}</p>
 
@@ -167,15 +170,17 @@ export default function StoneMatchmaker({ onConsult }: { onConsult: (message: st
                     </ul>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleConsult(material)}
-                    className="mt-auto text-xs uppercase tracking-[0.25em] border border-current px-5 py-3 text-center hover:bg-[var(--accent)] hover:border-[var(--accent)] hover:text-[var(--bg-dark)] transition-colors"
-                  >
-                    Consult with us on this material
-                  </button>
+                  {onConsult && (
+                    <button
+                      type="button"
+                      onClick={() => handleConsult(material)}
+                      className="mt-auto text-xs uppercase tracking-[0.25em] border border-current px-5 py-3 text-center hover:bg-[var(--accent)] hover:border-[var(--accent)] hover:text-[var(--bg-dark)] transition-colors"
+                    >
+                      Consult with us on this material
+                    </button>
+                  )}
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         </div>
