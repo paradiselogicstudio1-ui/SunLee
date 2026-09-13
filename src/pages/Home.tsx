@@ -32,8 +32,8 @@ const sections: Section[] = [
     animation: 'fade-up',
     enter: 12,
     leave: 28,
-    heading: 'Sourcing & Selection',
-    body: 'We travel to quarries across five continents, evaluating block by block for veining, density, and character. Every material we recommend, natural or engineered, is chosen to match the story your project is telling.',
+    heading: 'Material Selection',
+    body: 'Curating the exact geological match for the architectural design intent. Translating aesthetics into geological specifications.',
   },
   {
     id: 'production',
@@ -42,8 +42,8 @@ const sections: Section[] = [
     animation: 'slide-right',
     enter: 29,
     leave: 45,
-    heading: 'Production Oversight',
-    body: 'From block to slab, we oversee cutting, polishing, and quality control on the factory floor, ensuring tolerances, finishes, and batch consistency meet the standard your design demands.',
+    heading: 'Sourcing & Quarrying',
+    body: 'Choosing quarries and specific quarry sections that meet project requirements and prevent defects.',
   },
   {
     id: 'installation',
@@ -52,8 +52,8 @@ const sections: Section[] = [
     animation: 'scale-up',
     enter: 46,
     leave: 62,
-    heading: 'Installation Mastery',
-    body: 'On site, precision is everything. We supervise fabrication, templating, and fitting, coordinating with architects and contractors so every seam, edge, and reveal lands exactly as drawn.',
+    heading: 'Production Supervision',
+    body: 'Curating the exact geological match for the architectural design intent. Translating aesthetics into geological specifications.',
   },
   {
     id: 'maintenance',
@@ -62,8 +62,8 @@ const sections: Section[] = [
     animation: 'rotate-in',
     enter: 63,
     leave: 79,
-    heading: 'Enduring Maintenance',
-    body: "Stone is a lifetime material when it's cared for. We design sealing, cleaning, and restoration programs that protect surfaces for decades, preserving the investment long after installation.",
+    heading: 'Installation Supervision',
+    body: 'Technical oversight of substrates, complex mechanical anchoring, and placement logistics on the active construction site.',
   },
   {
     id: 'network',
@@ -72,8 +72,8 @@ const sections: Section[] = [
     animation: 'clip-reveal',
     enter: 80,
     leave: 96,
-    heading: 'A Global Network',
-    body: 'Decades of relationships with quarries, fabricators, and craftsmen worldwide mean rare materials and skilled hands are never out of reach, wherever your project is built.',
+    heading: 'Maintenance',
+    body: 'Establishing precise, chemistry-specific, post-handover care protocols to prevent long-term degradation and protect the asset.',
   },
 ]
 
@@ -85,7 +85,7 @@ const stats = [
   { value: 12, suffix: '', label: 'Countries Served' },
 ]
 
-const heroWords = ['Crafted', 'in', 'Stone']
+const heroWords = ['Carved', 'in', 'Expertise.']
 
 export default function Home() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -123,9 +123,13 @@ export default function Home() {
       sample.height = 4
       const sampleCtx = sample.getContext('2d')
       if (!sampleCtx) return bgColor
-      sampleCtx.drawImage(img, 0, 0, 4, 4)
-      const pixel = sampleCtx.getImageData(0, 0, 1, 1).data
-      return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`
+      try {
+        sampleCtx.drawImage(img, 0, 0, 4, 4)
+        const pixel = sampleCtx.getImageData(0, 0, 1, 1).data
+        return `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`
+      } catch {
+        return bgColor
+      }
     }
 
     function drawFrame(index: number) {
@@ -138,7 +142,12 @@ export default function Home() {
       const height = img.naturalHeight * scale
       ctx2d.fillStyle = bgColor
       ctx2d.fillRect(0, 0, viewportWidth, viewportHeight)
-      ctx2d.drawImage(img, (viewportWidth - width) / 2, (viewportHeight - height) / 2, width, height)
+      try {
+        ctx2d.drawImage(img, (viewportWidth - width) / 2, (viewportHeight - height) / 2, width, height)
+      } catch {
+        // A failed network response can leave an image in a broken state even
+        // after `complete` becomes true. Keep the last valid canvas frame.
+      }
     }
 
     function loadImage(index: number): Promise<void> {
@@ -157,9 +166,18 @@ export default function Home() {
       resizeCanvas()
       await Promise.all(Array.from({ length: 10 }, (_, index) => loadImage(index)))
       if (cancelled) return
-      bgColor = sampleBgColor(images[0])
-      currentFrame = 0
-      drawFrame(0)
+      const firstAvailableIndex = images.findIndex((image) => image?.complete && image.naturalWidth > 0)
+
+      // Never leave the site behind the loader if deployment assets are
+      // temporarily unavailable. The remaining page remains fully usable.
+      if (firstAvailableIndex === -1) {
+        finishLoading()
+        return
+      }
+
+      bgColor = sampleBgColor(images[firstAvailableIndex])
+      currentFrame = firstAvailableIndex
+      drawFrame(firstAvailableIndex)
 
       const batchSize = 24
       for (let start = 10; start < FRAME_COUNT; start += batchSize) {
@@ -341,8 +359,8 @@ export default function Home() {
           ))}
         </h1>
         <p className="hero-tagline">
-          From quarry to finished surface, Sanli guides architects, designers, and fabricators through sourcing,
-          production, and installation, end to end.
+          Eliminating risk in luxury stone projects. Studio Chiani oversees material study, quarry sourcing,
+          production, and installation from raw block to final maintenance.
         </p>
         <div className="scroll-indicator">
           <span className="line" />
@@ -380,8 +398,9 @@ export default function Home() {
       <footer className="site-footer">
         <div className="marquee-wrap" aria-hidden="true">
           <div className="marquee-text">
-            NATURAL STONE, ENDURING DESIGN, ENGINEERED PRECISION&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NATURAL STONE,
-            ENDURING DESIGN, ENGINEERED PRECISION
+            Optimizing industrial operations, maximizing slab yield, and enhancing machinery and tooling
+            efficiency&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Optimizing industrial operations, maximizing slab yield, and
+            enhancing machinery and tooling efficiency
           </div>
         </div>
 
@@ -405,7 +424,7 @@ export default function Home() {
             <span className="footer-link footer-placeholder">Instagram</span>
           </div>
           <a className="footer-link" href="/production-consultancy">Contact us</a>
-          <span className="footer-vat">P. IVA: [inserire numero]</span>
+          <span className="footer-vat">©️ 2026 Sanly Kyanian · P. IVA IT02580410500</span>
         </div>
       </footer>
     </div>

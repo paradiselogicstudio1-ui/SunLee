@@ -1,0 +1,136 @@
+.mobile-site-footer {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .mobile-site-footer {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    min-height: 38rem;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem 1.5rem 2.5rem;
+    color: #fff;
+    background: #050505;
+    text-align: center;
+  }
+
+  .mobile-footer-brand img {
+    display: block;
+    width: min(78vw, 330px);
+    height: auto;
+    margin-inline: auto;
+  }
+
+  .mobile-footer-brand p {
+    margin: 0.9rem auto 0;
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .mobile-footer-top {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 3.5rem 0 2.5rem;
+    padding: 0 0.5rem;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mobile-footer-top span {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-top: 1px solid currentColor;
+    border-left: 1px solid currentColor;
+    transform: translateY(3px) rotate(45deg);
+  }
+
+  .mobile-footer-top:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .mobile-footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.69rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .mobile-footer-social-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+  }
+
+  .mobile-footer-social-icon svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .mobile-footer-social-icon:first-child svg {
+    fill: currentColor;
+  }
+
+  .mobile-footer-social-icon:last-child svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+  }
+
+  .mobile-footer-social-icon .instagram-dot {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .mobile-footer-legal {
+    width: 100%;
+    margin-top: auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.72);
+  }
+
+  .mobile-footer-legal p {
+    margin: 0;
+    font-size: 0.68rem;
+    line-height: 1.65;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .mobile-footer-legal p + p {
+    margin-top: 0.7rem;
+    color: rgba(255, 255, 255, 0.44);
+  }
+
+  .mobile-footer-legal .mobile-footer-vat {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
